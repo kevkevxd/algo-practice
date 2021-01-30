@@ -15,6 +15,18 @@ let a = [
   [".", ".", ".", "5", ".", ".", ".", "7", "."],
 ];
 
+let b = [
+  [".", ".", ".", ".", "2", ".", ".", "9", "."],
+  [".", ".", ".", ".", "6", ".", ".", ".", "."],
+  ["7", "1", ".", ".", "7", "5", ".", ".", "."],
+  [".", "7", ".", ".", ".", ".", ".", ".", "."],
+  [".", ".", ".", ".", "8", "3", ".", ".", "."],
+  [".", ".", "8", ".", ".", "7", ".", "6", "."],
+  [".", ".", ".", ".", ".", "2", ".", ".", "."],
+  [".", "1", ".", "2", ".", ".", ".", ".", "."],
+  [".", "2", ".", ".", "3", ".", ".", ".", "."],
+];
+
 // rows
 // a[0][0]
 // a[0][1],
@@ -85,25 +97,87 @@ let a = [
 // ...
 // a[8][8]
 
+// counter, row, column
+// start by checking each row for repeats
+
+// to check each matrix find the pattern here for each.
+// row + 1                      [r][c]
+// [0][0], [0][1], [0][2],     [0][3], [0][4], [0][5],
+// [1][0], [1][1], [1][2],     [1][3], [1][4], [1][5],
+// [2][0], [2][1], [2][2],     [2][3], [2][4], [2][5],
+
+// what pattern is going on here?
+// row  + 0, 1, 2,
+// column 0, 0, 0,
+
+// after 3 row indexes; column + 1; with each index searched counter ++ (counter now at 3)
+// row  + 0, 1, 2,
+// column 1, 1, 1,
+
+// after 3 row indexes; column + 1; with each index searched counter ++ (counter now at 6)
+// row  + 0, 1, 2,
+// column 2, 2, 2,
+
+// after 3 row indexes; column + 1; with each index searched counter ++ (counter now at 9)
+// if no false values =>
+//
+
+// [3][0], [3][1], [3][2],     [3][3], [3][4], [3][5],
+// [4][0], [4][1], [4][2],     [3][3], [4][4], [1][5],
+// [5][0], [5][1], [5][2],     [4][3], [5][4], [2][5],
+
 function isSudoku(grid) {
+  //matrix checker
+  let counter = 0;
+  for (let rowIndex = 0; rowIndex < 9; rowIndex++) {
+    //in each row do this
+    for (let columnIndex = 0; columnIndex < 9; columnIndex++) {
+      const currentCell = grid[rowIndex][columnIndex];
+      counter++;
+      // column+1, take that number and put it in an obj
+      // if (counter[currentCell]) {
+      //   return false;
+      // } else {
+      //   if (currentCell !== ".") {
+      //     counter[currentCell] = 1;
+      //   }
+    }
+  }
+  console.log(`"row ${rowIndex} is now at:"`, rowNums);
   // row checker
   for (let rowIndex = 0; rowIndex < 9; rowIndex++) {
     //in each row do this
-    let matrix = {};
+    let rowNums = {};
     for (let columnIndex = 0; columnIndex < 9; columnIndex++) {
       const currentCell = grid[rowIndex][columnIndex];
       // column+1, take that number and put it in an obj
-      if (matrix[currentCell]) {
+      if (rowNums[currentCell]) {
         return false;
       } else {
         if (currentCell !== ".") {
-          matrix[currentCell] = 1;
+          rowNums[currentCell] = 1;
         }
       }
     }
-    console.log(matrix);
+    console.log(`"row ${rowIndex} is now at:"`, rowNums);
   }
+  // column checker
+  for (let c = 0; c < 9; c++) {
+    //in each row do this
+    let columnNums = {};
+    for (let r = 0; r < 9; r++) {
+      const currentCell = grid[r][c];
+      // column+1, take that number and put it in an obj
+      if (columnNums[currentCell]) {
+        return false;
+      } else {
+        if (currentCell !== ".") {
+          columnNums[currentCell] = 1;
+        }
+      }
+    }
+    console.log(`"column ${c} is now at:"`, columnNums);
+  }
+  return true;
 }
 console.log("end:", isSudoku(a));
-// counter, row, column
-// start by checking each row for repeats
